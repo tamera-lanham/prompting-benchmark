@@ -1,11 +1,12 @@
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from prompting_benchmark.models import Model
 from prompting_benchmark import models
 from prompting_benchmark.benchmark import prompt_strategies, score_fns
 from pathlib import Path
 from typing import Optional, Union, Callable
 import json
+import subprocess
 from tqdm import tqdm
 import os
 from prompting_benchmark.benchmark.task import Task
@@ -20,6 +21,10 @@ class BenchmarkSpec:
     prompt_templates: dict
     score_fn: str
     max_examples: Optional[int] = None
+    most_recent_commit_hash: str = ""
+
+    def __post_init__(self):
+        self.most_recent_commit_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("ascii").strip()
 
 
 class Benchmark:
@@ -62,9 +67,14 @@ class Benchmark:
             yield {"prompt": prompt, "target": target, "answer": answer, "score": score}
 
     def write_results(self, output_file: Union[Path, str] = ""):
-        if not output_file and self.spec:
-            timestamp = datetime.now().strftime("%Y-%m-%d--%H-%M")
-            output_file = Path("results") / f"{timestamp}.json"
+        if not output_file:
+            timestamp = (datetime.utcnow() - timedelta(hours=7)).strftime("%Y-%m-%d--%H-%M")
+            if self.spec:
+                task_name = Path(self.spec.examples_file).stem
+                filename = f"{self.spec.model}-{task_name}_{timestamp}.json"
+            else:
+                filename = f"benchmark_{timestamp}.json"
+            output_file = Path("results") / filename
 
         results = {"benchmark_spec": asdict(self.spec)}
         results["results"] = list(self.iter_results())
@@ -79,7 +89,7 @@ class Benchmark:
 
 if __name__ == "__main__":
     spec = BenchmarkSpec(
-        model="GPTJ",
+        model="GPT2",
         model_kwargs={"stop_tokens": ["\n"]},
         examples_file="tasks/object-counting.json",
         few_shot_exemplars=[],

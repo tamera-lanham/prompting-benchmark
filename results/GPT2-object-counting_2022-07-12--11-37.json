@@ -1,0 +1,922 @@
+{
+    "benchmark_spec": {
+        "model": "GPT2",
+        "model_kwargs": {
+            "stop_tokens": [
+                "\n"
+            ]
+        },
+        "examples_file": "tasks/object-counting.json",
+        "few_shot_exemplars": [],
+        "prompt_templates": {
+            "question_template": "Q: %s\n",
+            "answer_template": "A: %s"
+        },
+        "score_fn": "target_in_answer",
+        "max_examples": 100,
+        "most_recent_commit_hash": "e3de9924769afce5272a1a45e0158703856746a3"
+    },
+    "results": [
+        {
+            "prompt": "Q: I have a clarinet, a violin, and a flute. How many musical instruments do I have?\nA:",
+            "target": [
+                "three",
+                "3"
+            ],
+            "answer": " The instrument I use for my music is usually a flute, but I also play violin and flute while I'm at it.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a car, a toaster, a stove, a lamp, a microwave, a bed, a chair, a couch, and a fridge. How many objects do I have?\nA:",
+            "target": [
+                "nine",
+                "9"
+            ],
+            "answer": " The TV sets are very expensive. When I was younger, I just used my computer and my cell phone to watch TV. Now, I use my cell phone with a smartphone and my iPad to watch the movie. I think my computer is more useful.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a bed, four fridges, a lamp, a stove, three couches, a chair, a car, three toasters, and three tables. How many objects do I have?\nA:",
+            "target": [
+                "eighteen",
+                "18"
+            ],
+            "answer": " I have a bed, four fridges, a lamp, a stove, three couches, a chair, a car, three toasters, and three tables. How many objects do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a potato, three heads of broccoli, a cabbage, and two stalks of celery. How many vegetables do I have?\nA:",
+            "target": [
+                "seven",
+                "7"
+            ],
+            "answer": " I'll have two heads of broccoli. I'll have one stalks of celery.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a frog, a plum, two nectarines, a banana, an orange, a raspberry, and a grape. How many fruits do I have?\nA:",
+            "target": [
+                "seven",
+                "7"
+            ],
+            "answer": " I have two nectarines, one fruit and one fruit, which is about four nectarines in number, and I have two plum, four nectarines, and one fruit.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a frog, a dog, a snake, a mouse, a duck, a pig, a cow, a fish, a donkey, and a snail. How many animals do I have?\nA:",
+            "target": [
+                "ten",
+                "10"
+            ],
+            "answer": " I am living in a house. If I want to know how many animals are in my house, I have to ask the housekeeper.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a garlic, a potato, three lettuce heads, a yam, an onion, a cabbage, and a carrot. How many vegetables do I have?\nA:",
+            "target": [
+                "nine",
+                "9"
+            ],
+            "answer": " I have three peppers, two potatoes, and two carrots. I have a potato.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have an accordion, five clarinets, a violin, a trumpet, and three stalks of celery. How many musical instruments do I have?\nA:",
+            "target": [
+                "eight",
+                "8"
+            ],
+            "answer": " I have no musical instruments. I am a musician. I am a musician. I am a musician. I am a musician. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am a composer. I am",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a dog, a cow, a bear, a fish, a snail, and a piano. How many animals do I have?\nA:",
+            "target": [
+                "five",
+                "5"
+            ],
+            "answer": " I have a dog, a cow, a bear, a fish, a snail, and a piano. How many animals do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a chair, a fridge, a lamp, and a table. How many objects do I have?\nA:",
+            "target": [
+                "four",
+                "4"
+            ],
+            "answer": " I've got a whole kitchen, a whole lot of tables, and a kitchen sink. How many objects do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a blackberry, an orange, a strawberry, a peach, and a cow. How many fruits do I have?\nA:",
+            "target": [
+                "four",
+                "4"
+            ],
+            "answer": " I have a couple of bananas, a few tomatoes, and some kind of peaches.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a garlic, a head of broccoli, two stalks of celery, an onion, a potato, a carrot, a yam, three cauliflowers, and a lettuce head. How many vegetables do I have?\nA:",
+            "target": [
+                "twelve",
+                "12"
+            ],
+            "answer": " I have about 5. I get at least a dozen sprouts.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a bed, a stove, two lamps, a couch, a microwave, a chair, three fridges, a table, an oven, and four toasters. How many objects do I have?\nA:",
+            "target": [
+                "sixteen",
+                "16"
+            ],
+            "answer": " I have no furniture.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have three pianos, a chicken, an accordion, a trumpet, a trombone, a clarinet, and two flutes. How many musical instruments do I have?\nA:",
+            "target": [
+                "nine",
+                "9"
+            ],
+            "answer": " I can't even start playing piano or accordion. I don't know what the hell is going on.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a bear, a snake, a snail, a frog, a fish, a cow, a dog, a duck, and a mouse. How many animals do I have?\nA:",
+            "target": [
+                "nine",
+                "9"
+            ],
+            "answer": " A bee.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have an accordion, a clarinet, five drums, two trombones, and a trumpet. How many musical instruments do I have?\nA:",
+            "target": [
+                "ten",
+                "10"
+            ],
+            "answer": " I have three. I have a piano, a clarinet, five drums, two trombones, and a trumpet. I've got an accordion, a clarinet, five drums, two trombones, and a trumpet. And then, of course, I have a piano, a clarinet, five drums, two trombones, and a trumpet.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have two cabbages, a potato, a carrot, and an onion. How many vegetables do I have?\nA:",
+            "target": [
+                "five",
+                "5"
+            ],
+            "answer": " Six.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a stalk of celery, two garlics, and a yam. How many vegetables do I have?\nA:",
+            "target": [
+                "four",
+                "4"
+            ],
+            "answer": " I have two, and one is a sweet potato. I have six onions, a carrot, a garlic and a jalape\u00f1o (I can't say the same for any other vegetables I have).\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a peach, an onion, two garlics, a nectarine, a yam, a carrot, a potato, a head of broccoli, a cabbage, a banana, and a stalk of celery. How many vegetables do I have?\nA:",
+            "target": [
+                "nine",
+                "9"
+            ],
+            "answer": " I have only four: I have a green tomato, two onions, 2 garlics, and a beet.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a duck, two dogs, a cat, a fish, a goat, a snake, a chicken, a rabbit, a bear, and a pig. How many animals do I have?\nA:",
+            "target": [
+                "eleven",
+                "11"
+            ],
+            "answer": " It is not a question of the number of animals in the herd. It is a question of the number of people who live in the herd. The average life expectancy of a particular group is approximately 2 years. People who live in the herd do not live long.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a clarinet, a drum, two trombones, an accordion, a flute, and three trumpets. How many musical instruments do I have?\nA:",
+            "target": [
+                "nine",
+                "9"
+            ],
+            "answer": " I have a couple of guitars, two guitarists, two bassists, three drummers, a mandolin, and four bassists. I also have a couple of pianos and a piano and a trumpet.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a banana, a raspberry, an apple, a grape, a nectarine, a peach, a blackberry, an orange, a plum, and a strawberry. How many fruits do I have?\nA:",
+            "target": [
+                "ten",
+                "10"
+            ],
+            "answer": " I have seven to eight. I'm not going to lie. I don't know any of them. I don't know any of them. I've got to get one of them.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a drum, a piano, and a clarinet. How many musical instruments do I have?\nA:",
+            "target": [
+                "three",
+                "3"
+            ],
+            "answer": " I have a guitar, a clarinet, a guitar and a piano. How many musical instruments do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a banana, a peach, and a nectarine. How many fruits do I have?\nA:",
+            "target": [
+                "three",
+                "3"
+            ],
+            "answer": " It is impossible to determine the number of fruits.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a raspberry, a strawberry, three bananas, a plum, a blackberry, two oranges, a clarinet, an apple, and a peach. How many fruits do I have?\nA:",
+            "target": [
+                "eleven",
+                "11"
+            ],
+            "answer": " I have a raspberry, a strawberry, a plum, three bananas, a raspberry, and a peach.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a duck, a pig, a snail, and a donkey. How many animals do I have?\nA:",
+            "target": [
+                "four",
+                "4"
+            ],
+            "answer": " I can have over 40.\n",
+            "score": 1.0
+        },
+        {
+            "prompt": "Q: I have a table, a bed, two toasters, a lamp, two stoves, and five chairs. How many objects do I have?\nA:",
+            "target": [
+                "twelve",
+                "12"
+            ],
+            "answer": " I don't know. Maybe I have one or two. I do have two or three things in common with each other, but then I don't know.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have an apple, five blackberries, a strawberry, a raspberry, a banana, an orange, and a peach. How many fruits do I have?\nA:",
+            "target": [
+                "eleven",
+                "11"
+            ],
+            "answer": " I have two oranges and one raspberry. How many bananas do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a flute, and three drums. How many musical instruments do I have?\nA:",
+            "target": [
+                "four",
+                "4"
+            ],
+            "answer": " I have one bass and two drums. How many musical instruments do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a car, a couch, an oven, a microwave, a lamp, a stove, a table, and a bed. How many objects do I have?\nA:",
+            "target": [
+                "eight",
+                "8"
+            ],
+            "answer": " Most of my items are items like a stove, a lamp, a stove, a table, and an oven.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a chair, and a couch. How many objects do I have?\nA:",
+            "target": [
+                "two",
+                "2"
+            ],
+            "answer": " I have a chair, and a couch. How many objects do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a fridge, three tables, two ovens, three cars, a chair, a couch, a bed, and a toaster. How many objects do I have?\nA:",
+            "target": [
+                "thirteen",
+                "13"
+            ],
+            "answer": " In a kitchen there are almost half a dozen different objects I have. A microwave is about 1/2 an inch long whereas a fridge can be up to 1/2 an inch long.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have an onion, two heads of broccoli, a lettuce head, a cauliflower, a yam, and a garlic. How many vegetables do I have?\nA:",
+            "target": [
+                "seven",
+                "7"
+            ],
+            "answer": " No. I have two.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have an accordion, a yam, two clarinets, a garlic, a cauliflower, a cabbage, and a flute. How many vegetables do I have?\nA:",
+            "target": [
+                "four",
+                "4"
+            ],
+            "answer": " My house is a little bigger than my refrigerator, so I tend to buy a lot of vegetables. I usually don't have any vegetables. I get kind of excited at the idea of having vegetables, but I'm not a big fan of salads. I like to go salads.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have two nectarines, five mice, a fish, a donkey, a duck, three pigs, a blackberry, a rabbit, and two chickens. How many animals do I have?\nA:",
+            "target": [
+                "fourteen",
+                "14"
+            ],
+            "answer": " I have two nectarines, five mice, a fish, a donkey, a duck, three pigs, a blackberry, a rabbit, and two chickens. How many animals do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a nectarine, a grape, a banana, and an orange. How many fruits do I have?\nA:",
+            "target": [
+                "four",
+                "4"
+            ],
+            "answer": " I have a few, but one is a fruit. I have a dozen or more fruit, and that's why I have a little bit of a green. I have only one banana, and I have only one peach. I've got two blackberries on the table.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a table, a car, a stove, a lamp, a toaster, a fridge, and an oven. How many objects do I have?\nA:",
+            "target": [
+                "seven",
+                "7"
+            ],
+            "answer": " I have three basic things. I have a coffee mug, an espresso machine, and a kitchen sink.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have an orange, two onions, a grape, and a carrot. How many fruits do I have?\nA:",
+            "target": [
+                "two",
+                "2"
+            ],
+            "answer": " I have four to six oranges and six pears. How do I count fruits? I have the three pears, the one with the red pepper, and the one with the cumin. How do I count the fruits? I have the two pears, the one with the red pepper, and the one with the cumin. How do I count the fruits? I have the two pears, the one with the red pepper, and the one with the cumin. How do I count the fruits? I have the two pears, the one with the red pepper, and the one with the cumin. How do I count the fruits? I have the two pears, the one with the red pepper, and the one with the cumin. How do I count the fruits? I have the two pears, the one with the red pepper, and the one with the cumin. How do I count the fruits? I have the two pears, the one with the red pepper, and the one with the cumin. How do I count the fruits? I have the two pears, the one",
+            "score": 1.0
+        },
+        {
+            "prompt": "Q: I have a grape, and a peach. How many fruits do I have?\nA:",
+            "target": [
+                "two",
+                "2"
+            ],
+            "answer": " Every fruit.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a raspberry, three blackberries, a nectarine, a grape, a strawberry, an apple, a peach, and an orange. How many fruits do I have?\nA:",
+            "target": [
+                "ten",
+                "10"
+            ],
+            "answer": " The fruit.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a duck, a donkey, a dog, and a goat. How many animals do I have?\nA:",
+            "target": [
+                "four",
+                "4"
+            ],
+            "answer": " You can get a lot of them, but I got a lot of pigs. I've got a bunch of kangaroos, two dozen birds and a bird that's a little bit bigger than me. So, you get the number of animals you want. You pick the ones that are the right size. You pick the ones that are the wrong size.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a lamp, a couch, an oven, a table, three stoves, two chairs, and a fridge. How many objects do I have?\nA:",
+            "target": [
+                "ten",
+                "10"
+            ],
+            "answer": " I have a lamp, a couch, an oven, a table, three stoves, two chairs, and a fridge.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have an accordion, a flute, a trumpet, a clarinet, a violin, a trombone, a drum, and a piano. How many musical instruments do I have?\nA:",
+            "target": [
+                "eight",
+                "8"
+            ],
+            "answer": " I have a whole lot. I don't have a piano or a trombone, a guitar, a guitar, or a saxophone, a tuneless string, a violin, a flute, a trumpet, a clarinet, a trumpet, a flute, or a trumpet.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a fish, a bear, a mouse, two pigs, a snake, five donkeys, a cat, a toaster, a frog, a goat, and two dogs. How many animals do I have?\nA:",
+            "target": [
+                "sixteen",
+                "16"
+            ],
+            "answer": " Three and a half.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have three grapes, an apple, a strawberry, and an orange. How many fruits do I have?\nA:",
+            "target": [
+                "six",
+                "6"
+            ],
+            "answer": " 1,000.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a head of broccoli, a stalk of celery, three yams, and four potatoes. How many vegetables do I have?\nA:",
+            "target": [
+                "nine",
+                "9"
+            ],
+            "answer": " I have two, three, four. I have a lot of potatoes. I didn't have a lot of carrots in my kitchen, so I didn't have a lot of corn. I have a lot of veggie stuff, too.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have two dogs, three rabbits, two bears, a cow, a cat, a duck, a pig, and a frog. How many animals do I have?\nA:",
+            "target": [
+                "twelve",
+                "12"
+            ],
+            "answer": " I've had a number of rabbits. I have a couple of deer as well.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a lettuce head, a cauliflower, a garlic, a stalk of celery, a yam, and a potato. How many vegetables do I have?\nA:",
+            "target": [
+                "six",
+                "6"
+            ],
+            "answer": " I'm a vegetarian. I can do anything I want, and I'm always happy to help.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a chair, two lamps, a car, a fridge, two ovens, and three beds. How many objects do I have?\nA:",
+            "target": [
+                "ten",
+                "10"
+            ],
+            "answer": " Three.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have two raspberries, a blackberry, an orange, a grape, a mouse, a fish, a nectarine, and a rabbit. How many fruits do I have?\nA:",
+            "target": [
+                "six",
+                "6"
+            ],
+            "answer": " I have three. I have one more that I need.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have an onion, a yam, a head of broccoli, a potato, and a stalk of celery. How many vegetables do I have?\nA:",
+            "target": [
+                "five",
+                "5"
+            ],
+            "answer": " I have one onion, one yam, one broccoli.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a plum, a banana, a blackberry, three nectarines, and a raspberry. How many fruits do I have?\nA:",
+            "target": [
+                "seven",
+                "7"
+            ],
+            "answer": " About 20.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a rabbit, a goat, a pig, and two cows. How many animals do I have?\nA:",
+            "target": [
+                "five",
+                "5"
+            ],
+            "answer": " It's my choice. I have three rabbits. I'm a pig.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have two accordions, three clarinets, a piano, a drum, a flute, a trombone, a violin, and a trumpet. How many musical instruments do I have?\nA:",
+            "target": [
+                "eleven",
+                "11"
+            ],
+            "answer": " One accordion, two clarinets, three clarinets, two clarinets, two clarinets, one clarinet, one clarinet, two clarinet, three clarinets, one clarinet, two clarinet, three clarinet, three clarinet, one clarinet, two clarinet, three clarinet, three clarinet, one clarinet, two clarinet, three clarinet, one clarinet, two clarinet, one clarinet, two clarinet, three clarinet, one clarinet, two clarinet, three clarinet, one clarinet, two clarinet, three clarinet, three clarinet, three clarinet, one clarinet, two clarinet, three clarinet, three clarinet, three clarinet, three clarinet, three clarinet, three clarinet, three clarinet, three clarinet, three clarinet, three clarinet, three clarinet, three clarinet, three clarinet, three clarinet, three clarinet, three clarinet,",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have an orange, a peach, three nectarines, and an apple. How many fruits do I have?\nA:",
+            "target": [
+                "six",
+                "6"
+            ],
+            "answer": " A lot.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a flute, a trombone, a drum, a trumpet, two clarinets, an accordion, a violin, and a piano. How many musical instruments do I have?\nA:",
+            "target": [
+                "nine",
+                "9"
+            ],
+            "answer": " You're probably thinking, \"I don't have a flute.\"\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a lamp, a microwave, a table, a fridge, a stove, four beds, a toaster, an oven, two couches, and a chair. How many objects do I have?\nA:",
+            "target": [
+                "fourteen",
+                "14"
+            ],
+            "answer": " I have about three.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a violin, a piano, a drum, a flute, a trombone, an accordion, two trumpets, and a clarinet. How many musical instruments do I have?\nA:",
+            "target": [
+                "nine",
+                "9"
+            ],
+            "answer": " I have five or six instruments. And they all seem to be very popular, as well as very expensive. I have a collection of ten or twelve instruments.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a carrot, two lettuce heads, a stalk of celery, an oven, a chair, a cabbage, a head of broccoli, and a garlic. How many vegetables do I have?\nA:",
+            "target": [
+                "seven",
+                "7"
+            ],
+            "answer": " I have a cabbage, two lettuce heads, a stalk of celery, an oven, a chair, a cabbage, a head of broccoli, and a garlic.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a lettuce head, a head of broccoli, a carrot, a yam, an onion, and a potato. How many vegetables do I have?\nA:",
+            "target": [
+                "six",
+                "6"
+            ],
+            "answer": " I haven't been able to find a lot of vegetables.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a couch, and a car. How many objects do I have?\nA:",
+            "target": [
+                "two",
+                "2"
+            ],
+            "answer": " We have 1,000 things. You can ask the question, but it won't be answered.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a violin, three trombones, two snails, an accordion, a piano, a trumpet, and a clarinet. How many musical instruments do I have?\nA:",
+            "target": [
+                "eight",
+                "8"
+            ],
+            "answer": " I have a piano, a viola, a flute, a clarinet, and a bass. How many musical instruments do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have an accordion, and a flute. How many musical instruments do I have?\nA:",
+            "target": [
+                "two",
+                "2"
+            ],
+            "answer": " I don't know. I can't tell you. But I've heard that you play a flute.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a strawberry, a blackberry, a plum, a grape, a peach, an apple, and an orange. How many fruits do I have?\nA:",
+            "target": [
+                "seven",
+                "7"
+            ],
+            "answer": " You can do it with any fruit, especially the ones that have a lot of sugar. Most fruits have a lot of sugar, so you can probably get a lot of sugar without having to worry about sugar.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a raspberry, three clarinets, an apple, a nectarine, four oranges, a flute, a peach, and an accordion. How many fruits do I have?\nA:",
+            "target": [
+                "eight",
+                "8"
+            ],
+            "answer": " I have eight. Four apples are the only fruit I have.\n",
+            "score": 1.0
+        },
+        {
+            "prompt": "Q: I have a garlic, a yam, and a head of broccoli. How many vegetables do I have?\nA:",
+            "target": [
+                "three",
+                "3"
+            ],
+            "answer": " I have about seven, seven different varieties. I have the two varieties I am going to use for the chicken, and the first one is probably the most important. The best option was a chicken that was cooked in a skillet over medium-high heat.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a stove, a couch, a bed, and a fridge. How many objects do I have?\nA:",
+            "target": [
+                "four",
+                "4"
+            ],
+            "answer": " I have a stove, a couch, a bed, and a fridge. How many objects do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a trumpet, a piano, two flutes, and a drum. How many musical instruments do I have?\nA:",
+            "target": [
+                "five",
+                "5"
+            ],
+            "answer": " I have a violin, a violin, four flutes, a saxophone, a drum, and a guitar.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a peach, an orange, a garlic, two stalks of celery, and a carrot. How many vegetables do I have?\nA:",
+            "target": [
+                "four",
+                "4"
+            ],
+            "answer": " I have 4 carrots. I can say with absolute certainty that I can only have 7. I can have potatoes, carrots and celery. I have about 5. I can have tomatoes, onions and celery. I can have cabbage, radish and parsley.\n",
+            "score": 1.0
+        },
+        {
+            "prompt": "Q: I have a car, a bed, a fridge, a microwave, a table, an oven, a stove, a lamp, and a toaster. How many objects do I have?\nA:",
+            "target": [
+                "nine",
+                "9"
+            ],
+            "answer": " I have 3,000 items.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a yam, a violin, a garlic, a potato, and a carrot. How many vegetables do I have?\nA:",
+            "target": [
+                "four",
+                "4"
+            ],
+            "answer": " I have many vegetables.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a strawberry, a raspberry, a grape, five plums, and an apple. How many fruits do I have?\nA:",
+            "target": [
+                "nine",
+                "9"
+            ],
+            "answer": " There is one.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have four pianos, two strawberries, two trumpets, a flute, a banana, an apple, a peach, two raspberries, a grape, a blackberry, an orange, and a plum. How many fruits do I have?\nA:",
+            "target": [
+                "eleven",
+                "11"
+            ],
+            "answer": " One, one, one.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a cauliflower, and a cabbage. How many vegetables do I have?\nA:",
+            "target": [
+                "two",
+                "2"
+            ],
+            "answer": " The best ones, in fact. There are even vegetables that are more than a couple of varieties.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a table, a fridge, a microwave, and a stove. How many objects do I have?\nA:",
+            "target": [
+                "four",
+                "4"
+            ],
+            "answer": " One.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have two microwaves, four toasters, a couch, a stove, a table, a car, a lamp, and a chair. How many objects do I have?\nA:",
+            "target": [
+                "twelve",
+                "12"
+            ],
+            "answer": " I have two microwaves, four toasters, a couch, a stove, a table, a car, a lamp, and a chair. How many objects do I have?\n\n\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a mouse, a stove, a snail, and a rabbit. How many animals do I have?\nA:",
+            "target": [
+                "three",
+                "3"
+            ],
+            "answer": " One rabbit, the one that lives in your house, the one that's on your bed, the one who is all my favorite.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a trumpet, two drums, an accordion, and a clarinet. How many musical instruments do I have?\nA:",
+            "target": [
+                "five",
+                "5"
+            ],
+            "answer": " That's a question I've always asked: \"What is a trumpet?\" and what is a clarinet?\" I can't answer that. I can't answer that because I get an answer from the guy who actually writes this piece, and he says, \"Ah, well, I guess that'd be a better question. But, I don't see how you can make a question that's not a question. What is a clarinet?\" And that's exactly what I did. I used to play with an accordion, and I was like, \"Well, you're right. I have one. I've played with a clarinet for years. I've never played with a clarinet. I've never played with a clarinet.\" And they're like, \"Oh no, no, no no, no, no, no, no. It's a very different instrument. It's a very different instrument. And it's a very different person.\" Because it's a different instrument. I never had the same instrument.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a table, a microwave, three lamps, two couches, three stoves, a car, and two beds. How many objects do I have?\nA:",
+            "target": [
+                "thirteen",
+                "13"
+            ],
+            "answer": " It's a question of, how many things do I have, and what do I have?\"\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a banana, and a strawberry. How many fruits do I have?\nA:",
+            "target": [
+                "two",
+                "2"
+            ],
+            "answer": " I have a banana, and a strawberry. How many fruits do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have three lettuce heads, a cabbage, a cauliflower, a fish, a stalk of celery, three onions, a head of broccoli, three potatoes, a cat, and two yams. How many vegetables do I have?\nA:",
+            "target": [
+                "fifteen",
+                "15"
+            ],
+            "answer": " One.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have two garlics, a yam, a lettuce head, a head of broccoli, a potato, a cabbage, and a carrot. How many vegetables do I have?\nA:",
+            "target": [
+                "eight",
+                "8"
+            ],
+            "answer": " Well, they're all different types of vegetables. In tomatoes, they're called tomato sauce. In peppers, they're called pepper. And in squash, they're called squash. And in cucumbers, they're called cucumber sauce. And in tomatoes, they're called tomato sauce. And in onions, they're called onion sauce.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a garlic, a fish, a lettuce head, two yams, and three stalks of celery. How many vegetables do I have?\nA:",
+            "target": [
+                "seven",
+                "7"
+            ],
+            "answer": " I don't have any vegetables. If you ask me, I don't know. I was just doing a little research on the subject. I just went to the grocery store and found some stuff. I've been eating some of the stuff and had a few of them on the side. I've never eaten anything by itself. There are some things that you can do with that.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have three pianos, an accordion, a violin, four trombones, and a drum. How many musical instruments do I have?\nA:",
+            "target": [
+                "ten",
+                "10"
+            ],
+            "answer": " I have a variety of instruments. I have a few pianos, some accordions, a violin, a drum, a bass, a guitar, and a guitar organ. I also have a variety of instruments that I have in a variety of sizes. I have quite a number of different ways of playing, but I would say five or six different ways of playing. All of them have a variety of different meanings.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a blackberry, and two peaches. How many fruits do I have?\nA:",
+            "target": [
+                "three",
+                "3"
+            ],
+            "answer": " About one.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a pig, a goat, a bear, two chickens, and a donkey. How many animals do I have?\nA:",
+            "target": [
+                "six",
+                "6"
+            ],
+            "answer": " Oh, four, and one.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have two onions, a violin, a trombone, two trumpets, an accordion, a head of broccoli, a flute, a piano, and a drum. How many musical instruments do I have?\nA:",
+            "target": [
+                "eight",
+                "8"
+            ],
+            "answer": " I have two pianos, two basses, two drums, two drums in the same room, four pianos, and three pianos in the same room. How many musical instruments do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a drum, two pianos, a flute, and a clarinet. How many musical instruments do I have?\nA:",
+            "target": [
+                "five",
+                "5"
+            ],
+            "answer": " I have one, a drum, and a flute. How many instruments do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have four ovens, a bed, a stove, a microwave, and a car. How many objects do I have?\nA:",
+            "target": [
+                "eight",
+                "8"
+            ],
+            "answer": " You know, it's like taking a nap. I've got what you see on TV. It's like a nap.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a cabbage, a lettuce head, five yams, a cauliflower, and three carrots. How many vegetables do I have?\nA:",
+            "target": [
+                "eleven",
+                "11"
+            ],
+            "answer": " I don't know. I don't know. We're probably going to have to ask at some point.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a mouse, and a bear. How many animals do I have?\nA:",
+            "target": [
+                "two",
+                "2"
+            ],
+            "answer": " Two. I will give you a list of all the animals that can be seen in the wild, and then I will make sure you have all the animals and you can see what I mean.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a cat, a dog, a bear, three pigs, a chicken, five mice, a couch, a fish, and a frog. How many animals do I have?\nA:",
+            "target": [
+                "fourteen",
+                "14"
+            ],
+            "answer": " I have three.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have an onion, a garlic, a potato, a yam, a cauliflower, and two cabbages. How many vegetables do I have?\nA:",
+            "target": [
+                "seven",
+                "7"
+            ],
+            "answer": " One. I don't have broccoli, I don't have cauliflower, and I don't have tomatoes.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a carrot, a car, a potato, a cauliflower, a head of broccoli, and an onion. How many vegetables do I have?\nA:",
+            "target": [
+                "five",
+                "5"
+            ],
+            "answer": " Yup.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a clarinet, a drum, a piano, a violin, a cauliflower, a lettuce head, a trumpet, an accordion, a flute, and two trombones. How many musical instruments do I have?\nA:",
+            "target": [
+                "nine",
+                "9"
+            ],
+            "answer": " I have two pianos, one piano in the cello, one in the trombone. How many musical instruments do I have?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a raspberry, and a blackberry. How many fruits do I have?\nA:",
+            "target": [
+                "two",
+                "2"
+            ],
+            "answer": " I have a strawberry, two cherry, a lemon, an orange, a blackberry, and an orange peel.\n",
+            "score": 1.0
+        },
+        {
+            "prompt": "Q: I have a couch, an oven, a microwave, a lamp, a table, a stove, and two fridges. How many objects do I have?\nA:",
+            "target": [
+                "eight",
+                "8"
+            ],
+            "answer": " I have four computers, four books, three stereo speakers, and a microwave. And I have a large fridge, a microwave oven, an oven at home, and an oven inside the garage. Do I have a microwave oven, do I have a microwave oven at my home?\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a plum, a banana, a strawberry, three oranges, a grape, and a raspberry. How many fruits do I have?\nA:",
+            "target": [
+                "eight",
+                "8"
+            ],
+            "answer": " I have two oranges.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a trumpet, a clarinet, an accordion, a piano, and a trombone. How many musical instruments do I have?\nA:",
+            "target": [
+                "five",
+                "5"
+            ],
+            "answer": " I have three instruments: a drum, a flute, and an electric piano. I play the keys and the chords on my trumpet and with the flute. These instruments are all my instruments.\n",
+            "score": 0.0
+        },
+        {
+            "prompt": "Q: I have a raspberry, two apples, a peach, a nectarine, and three bananas. How many fruits do I have?\nA:",
+            "target": [
+                "eight",
+                "8"
+            ],
+            "answer": " I have a lot.\n",
+            "score": 0.0
+        }
+    ],
+    "avg_score": 0.05
+}
