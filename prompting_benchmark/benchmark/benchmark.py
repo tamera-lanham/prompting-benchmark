@@ -1,4 +1,4 @@
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta
 import itertools
 from prompting_benchmark.models import Model, HuggingfaceModel
@@ -18,9 +18,11 @@ class BenchmarkSpec:
     model_kwargs: dict
     examples_file: str
     score_fn: str
-    prompt_strategy: dict
-    exemplars_prompt_strategy: Optional[dict] = None
-    few_shot_exemplars: Optional[list[dict]] = None
+    prompt_strat: str
+    prompt_strat_kwargs: dict = field(default_factory=dict)
+    exemplars_prompt_strat: str = ""
+    exemplars_prompt_strat_kwargs: dict = field(default_factory=dict)
+    few_shot_exemplars: list[dict] = field(default_factory=list)
     max_examples: Optional[int] = None
     most_recent_commit_hash: str = ""
 
@@ -30,6 +32,7 @@ class BenchmarkSpec:
 
 class Benchmark:
     model_classes = {"HuggingfaceModel": HuggingfaceModel}
+    prompt_strats = {"from_template": prompt_strategies.from_template}
     score_fns = {"starts_with": score_fns.starts_with, "target_in_answer": score_fns.target_in_answer}
 
     def __init__(
@@ -49,14 +52,17 @@ class Benchmark:
     @classmethod
     def from_spec(cls, spec: BenchmarkSpec):
         model = cls.model_classes[spec.model_class](**spec.model_kwargs)
-        prompt_strategy = prompt_strategies.from_template(**spec.prompt_strategy)
-        exemplars_prompt_strategy = (
-            prompt_strategies.from_template(**spec.exemplars_prompt_strategy)
-            if spec.exemplars_prompt_strategy
-            else None
-        )
-        task = Task.from_json(spec.examples_file, prompt_strategy, spec.few_shot_exemplars, exemplars_prompt_strategy)
+
+        prompt_strategy = cls.prompt_strats[spec.prompt_strat](**spec.prompt_strat_kwargs)
+
+        exemplars_prompt_strat_name = spec.exemplars_prompt_strat or spec.prompt_strat
+        exemplars_prompt_strat_kwargs = spec.exemplars_prompt_strat_kwargs or spec.prompt_strat_kwargs
+        exemplars_prompt_strat = cls.prompt_strats[exemplars_prompt_strat_name](**exemplars_prompt_strat_kwargs)
+
+        task = Task.from_json(spec.examples_file, prompt_strategy, spec.few_shot_exemplars, exemplars_prompt_strat)
+
         score_fn = cls.score_fns[spec.score_fn]
+
         return cls(model, task, score_fn, spec.max_examples, spec)
 
     def iter_results(self, batch_size=32):
@@ -111,8 +117,9 @@ if __name__ == "__main__":
         model_kwargs={"model_name": "EleutherAI/gpt-j-6B", "stop_tokens": ["\n", "."]},
         examples_file="tasks/object-counting.json",
         few_shot_exemplars=few_shot_exemplars,
-        prompt_strategy={"question_template": "%s\n", "answer_template": "I have%s"},
-        exemplars_prompt_strategy={"question_template": "%s\n", "answer_template": "%s"},
+        prompt_strat="from_template",
+        prompt_strat_kwargs={"question_template": "%s\n", "answer_template": "I have%s"},
+        exemplars_prompt_strat_kwargs={"question_template": "%s\n", "answer_template": "%s"},
         score_fn="target_in_answer",
     )
 

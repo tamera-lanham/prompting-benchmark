@@ -1,7 +1,5 @@
-from ast import Call
 from pathlib import Path
 from typing import Callable, Optional, Union, Iterable, Tuple
-from prompting_benchmark.benchmark.prompt_strategies import q_and_a, vanilla
 import json
 
 
@@ -9,7 +7,7 @@ class Task:
     def __init__(
         self,
         examples: Iterable[dict],  # dict: {"input": str, "target": list}
-        prompt_strategy: Callable = vanilla,
+        prompt_strategy: Callable,
         few_shot_exemplars: Optional[Iterable[dict]] = None,  # dict: {"input": str, "scratchpad": list, "answer": str}
         exemplars_prompt_strategy: Optional[Callable] = None,
     ):
@@ -22,7 +20,7 @@ class Task:
     def from_json(
         cls,
         task_file: Union[Path, str],
-        prompt_strategy: Callable = vanilla,
+        prompt_strategy: Callable,
         few_shot_exemplars: Iterable[dict] = [],
         exemplars_prompt_strategy: Optional[Callable] = None,
     ):
