@@ -1,8 +1,7 @@
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
 import itertools
-from prompting_benchmark.models import Model
-from prompting_benchmark import models
+from prompting_benchmark.models import Model, HuggingfaceModel
 from prompting_benchmark.benchmark import prompt_strategies, score_fns
 from pathlib import Path
 from typing import Optional, Union, Callable
@@ -15,12 +14,13 @@ from prompting_benchmark.benchmark.task import Task
 
 @dataclass
 class BenchmarkSpec:
-    model: str
+    model_class: str
     model_kwargs: dict
     examples_file: str
-    few_shot_exemplars: list[dict]
-    prompt_templates: dict
     score_fn: str
+    prompt_strategy: dict
+    exemplars_prompt_strategy: Optional[dict] = None
+    few_shot_exemplars: Optional[list[dict]] = None
     max_examples: Optional[int] = None
     most_recent_commit_hash: str = ""
 
@@ -29,7 +29,7 @@ class BenchmarkSpec:
 
 
 class Benchmark:
-    models = {"GPT2": models.GPT2, "GPTJ": models.GPTJ}
+    model_classes = {"HuggingfaceModel": HuggingfaceModel}
     score_fns = {"starts_with": score_fns.starts_with, "target_in_answer": score_fns.target_in_answer}
 
     def __init__(
@@ -48,9 +48,14 @@ class Benchmark:
 
     @classmethod
     def from_spec(cls, spec: BenchmarkSpec):
-        model = cls.models[spec.model](**spec.model_kwargs)
-        prompt_strategy = prompt_strategies.from_template(**spec.prompt_templates)
-        task = Task.from_json(spec.examples_file, prompt_strategy, spec.few_shot_exemplars)
+        model = cls.model_classes[spec.model_class](**spec.model_kwargs)
+        prompt_strategy = prompt_strategies.from_template(**spec.prompt_strategy)
+        exemplars_prompt_strategy = (
+            prompt_strategies.from_template(**spec.exemplars_prompt_strategy)
+            if spec.exemplars_prompt_strategy
+            else None
+        )
+        task = Task.from_json(spec.examples_file, prompt_strategy, spec.few_shot_exemplars, exemplars_prompt_strategy)
         score_fn = cls.score_fns[spec.score_fn]
         return cls(model, task, score_fn, spec.max_examples, spec)
 
@@ -63,7 +68,7 @@ class Benchmark:
                 batch = itertools.islice(task_iter, batch_size)
                 prompts, targets = zip(*batch)
 
-                for prompt, target, full_completion in zip(prompts, targets, self.model.complete(prompts)):
+                for prompt, target, full_completion in zip(prompts, targets, self.model.complete(list(prompts))):
                     answer = full_completion[len(prompt) :]
                     score = self.score_fn(answer, target)
                     yield {"prompt": prompt, "target": target, "answer": answer, "score": score}
@@ -76,7 +81,7 @@ class Benchmark:
             timestamp = (datetime.utcnow() - timedelta(hours=7)).strftime("%Y-%m-%d--%H-%M")
             if self.spec:
                 task_name = Path(self.spec.examples_file).stem
-                filename = f"{self.spec.model}-{task_name}_{timestamp}.json"
+                filename = f"{self.spec.model_class}-{task_name}_{timestamp}.json"
             else:
                 filename = f"benchmark_{timestamp}.json"
             output_file = Path("results") / filename
@@ -89,20 +94,28 @@ class Benchmark:
         with open(output_file, "w") as f:
             json.dump(results, f, indent=4)
 
-        return results["avg_score"]
+        return results
 
 
 if __name__ == "__main__":
+    few_shot_exemplars = [
+        {
+            "input": "I have a clarinet, a violin, and a flute. How many musical instruments do I have?",
+            "scratchpad": "",
+            "answer": "I have three musical instruments.",
+        }
+    ]
+
     spec = BenchmarkSpec(
-        model="GPT2",
-        model_kwargs={"stop_tokens": ["\n", "."]},
+        model_class="HuggingfaceModel",
+        model_kwargs={"model_name": "EleutherAI/gpt-j-6B", "stop_tokens": ["\n", "."]},
         examples_file="tasks/object-counting.json",
-        few_shot_exemplars=[],
-        prompt_templates={"question_template": "Q: %s\n", "answer_template": "A: %s"},
+        few_shot_exemplars=few_shot_exemplars,
+        prompt_strategy={"question_template": "%s\n", "answer_template": "I have%s"},
+        exemplars_prompt_strategy={"question_template": "%s\n", "answer_template": "%s"},
         score_fn="target_in_answer",
-        max_examples=100,
     )
 
     benchmark = Benchmark.from_spec(spec)
-    score = benchmark.write_results()
-    print(score)
+    results = benchmark.write_results()
+    print(results["avg_score"])

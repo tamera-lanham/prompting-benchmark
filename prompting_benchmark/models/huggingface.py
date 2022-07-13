@@ -4,7 +4,7 @@ from transformers.generation_stopping_criteria import (
     StoppingCriteria,
     StoppingCriteriaList,
 )
-from transformers import GPTJForCausalLM, AutoTokenizer, GPT2Tokenizer, GPT2LMHeadModel
+from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch as t
 from typing import Iterable, Union
 
@@ -20,7 +20,7 @@ class StopTokenCriteria(StoppingCriteria):
 
     def __call__(self, input_ids: t.LongTensor, scores: t.FloatTensor, **kwargs) -> bool:
         return all(
-            any(token_id in completion[prompt_len:] for token_id in self.stop_token_ids)
+            any(stop_token in completion[prompt_len:] for stop_token in self.stop_token_ids)
             for completion, prompt_len in zip(input_ids, self.prompt_lens)
         )
 
@@ -29,8 +29,9 @@ class HuggingfaceModel(Model):
     def _post_init(self):
 
         self.device = t.device("cuda:0")
-        self.model, self.tokenizer = self._init_model_and_tokenizer()
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_name, padding_side="left")
         self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.model = AutoModelForCausalLM.from_pretrained(self.model_name).to(self.device)
 
         if not isinstance(self.stop_tokens, list):
             raise ValueError("Stop tokens must be list")
@@ -61,40 +62,23 @@ class HuggingfaceModel(Model):
 
     def complete(self, prompts: list[str], **generate_kwargs) -> list[str]:
 
-        prompts_tokenized = self.tokenizer(prompts, return_tensors="pt", padding=True)
-        prompts_ids = prompts_tokenized.input_ids.to(self.device)
-        prompt_lens = [row.sum().item() for row in prompts_tokenized.attention_mask]
+        tokens = self.tokenizer(prompts, return_tensors="pt", padding=True)
+        prompts_ids = tokens.input_ids.to(self.device)
+        prompt_lens = [row.sum().item() for row in tokens.attention_mask]
 
         outputs_ids = self.model.generate(
             prompts_ids,
-            do_sample=True,
+            do_sample=True if self.temperature != 0 else False,
             temperature=self.temperature,
-            max_length=self.max_tokens,
+            max_new_tokens=self.max_tokens,
             stopping_criteria=self._stopping_criteria(prompt_lens),
-            attention_mask=prompts_tokenized.attention_mask.to(self.device),
+            attention_mask=tokens.attention_mask.to(self.device),
             pad_token_id=self.tokenizer.eos_token_id,
             **generate_kwargs
         )
         output_ids_trimmed = [
-            self._trim(output_ids, attn_mask)
-            for output_ids, attn_mask in zip(outputs_ids, prompts_tokenized.attention_mask)
+            self._trim(output_ids, attn_mask) for output_ids, attn_mask in zip(outputs_ids, tokens.attention_mask)
         ]
         outputs = self.tokenizer.batch_decode(output_ids_trimmed)
 
         return outputs
-
-
-class GPTJ(HuggingfaceModel):
-    def _init_model_and_tokenizer(self):
-        tokenizer = AutoTokenizer.from_pretrained("EleutherAI/gpt-j-6B")
-        model = GPTJForCausalLM.from_pretrained("EleutherAI/gpt-j-6B", low_cpu_mem_usage=True).to(self.device)
-
-        return model, tokenizer
-
-
-class GPT2(HuggingfaceModel):
-    def _init_model_and_tokenizer(self):
-        tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
-        model = GPT2LMHeadModel.from_pretrained("gpt2").to(self.device)
-
-        return model, tokenizer
