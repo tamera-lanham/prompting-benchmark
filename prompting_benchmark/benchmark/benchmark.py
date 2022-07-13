@@ -1,5 +1,6 @@
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta
+import itertools
 from prompting_benchmark.models import Model
 from prompting_benchmark import models
 from prompting_benchmark.benchmark import prompt_strategies, score_fns
@@ -53,18 +54,22 @@ class Benchmark:
         score_fn = cls.score_fns[spec.score_fn]
         return cls(model, task, score_fn, spec.max_examples, spec)
 
-    def iter_results(self):
+    def iter_results(self, batch_size=32):
         total_examples = len(self.task) if self.max_examples is None else self.max_examples
+        task_iter = iter(self.task)
 
-        for i, (prompt, target) in tqdm(enumerate(self.task), total=total_examples):
-            if i >= total_examples:
-                break
+        with tqdm(total=total_examples) as pbar:
+            while True:
+                batch = itertools.islice(task_iter, batch_size)
+                prompts, targets = zip(*batch)
 
-            full_completion = self.model.complete([prompt])[0]
-            answer = full_completion[len(prompt) :]
-            score = self.score_fn(answer, target)
-
-            yield {"prompt": prompt, "target": target, "answer": answer, "score": score}
+                for prompt, target, full_completion in zip(prompts, targets, self.model.complete(prompts)):
+                    answer = full_completion[len(prompt) :]
+                    score = self.score_fn(answer, target)
+                    yield {"prompt": prompt, "target": target, "answer": answer, "score": score}
+                    pbar.update()
+                    if pbar.n >= total_examples:
+                        return
 
     def write_results(self, output_file: Union[Path, str] = ""):
         if not output_file:
@@ -90,7 +95,7 @@ class Benchmark:
 if __name__ == "__main__":
     spec = BenchmarkSpec(
         model="GPT2",
-        model_kwargs={"stop_tokens": ["\n"]},
+        model_kwargs={"stop_tokens": ["\n", "."]},
         examples_file="tasks/object-counting.json",
         few_shot_exemplars=[],
         prompt_templates={"question_template": "Q: %s\n", "answer_template": "A: %s"},

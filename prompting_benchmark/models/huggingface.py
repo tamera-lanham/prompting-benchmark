@@ -6,7 +6,7 @@ from transformers.generation_stopping_criteria import (
 )
 from transformers import GPTJForCausalLM, AutoTokenizer, GPT2Tokenizer, GPT2LMHeadModel
 import torch as t
-from typing import Union
+from typing import Iterable, Union
 
 # StoppingCriteria info:
 # https://github.com/huggingface/transformers/blob/09178705101b9803e7b9ea7f79a46b4c242dd4bf/src/transformers/generation_stopping_criteria.py
@@ -44,14 +44,22 @@ class HuggingfaceModel(Model):
         else:
             return StoppingCriteriaList([])
 
-    def _truncate(self, output_ids: t.Tensor, prompt_len):
-        # Remove everything after the first occurence of a stop token
-        # TODO: confirm that the logits are the same in these two situations:
-        # Token1 token2 token3 token4; attention_mask [1 1 1 1]
-        # Token1 token2 <|eos|> token3 token4; attention_mask [1 1 0 1 1]
-        prompt_id, completion_ids = output_ids[:prompt_len], output_ids[prompt_len:]
+    def _trim(self, output_ids: t.Tensor, attn_mask: t.Tensor):
+        # Remove everything that's after the first occurence of a stop token, or excluded by the attention mask
 
-    def complete(self, prompts: list[str]) -> list[str]:
+        def element_in(tensor: t.Tensor, set: Iterable) -> t.Tensor:
+            return sum((tensor == element).to(t.bool) for element in set).to(t.bool)
+
+        prompt_len = len(attn_mask)
+        prompt_ids = output_ids[:prompt_len][attn_mask.to(t.bool)]
+
+        completion_ids = output_ids[prompt_len:]
+        stop_indices = element_in(completion_ids, self.stop_token_ids).nonzero()
+        first_stop_index = stop_indices[0, 0].item() if stop_indices.numel() else None
+
+        return t.cat([prompt_ids, completion_ids[:first_stop_index]])
+
+    def complete(self, prompts: list[str], **generate_kwargs) -> list[str]:
 
         prompts_tokenized = self.tokenizer(prompts, return_tensors="pt", padding=True)
         prompts_ids = prompts_tokenized.input_ids.to(self.device)
@@ -65,9 +73,13 @@ class HuggingfaceModel(Model):
             stopping_criteria=self._stopping_criteria(prompt_lens),
             attention_mask=prompts_tokenized.attention_mask.to(self.device),
             pad_token_id=self.tokenizer.eos_token_id,
+            **generate_kwargs
         )
-        output_ids_truncated = [output_ids for output_ids, prompt_len in zip(outputs_ids, prompt_lens)]
-        outputs = self.tokenizer.batch_decode(output_ids_truncated)
+        output_ids_trimmed = [
+            self._trim(output_ids, attn_mask)
+            for output_ids, attn_mask in zip(outputs_ids, prompts_tokenized.attention_mask)
+        ]
+        outputs = self.tokenizer.batch_decode(output_ids_trimmed)
 
         return outputs
 
