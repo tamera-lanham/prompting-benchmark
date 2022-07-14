@@ -39,10 +39,15 @@ class HuggingfaceModel(Model):
         stop_token_ids_nested = self.tokenizer(self.stop_tokens + [self.tokenizer.eos_token])["input_ids"]
         self.stop_token_ids = [id_ for sublist in stop_token_ids_nested for id_ in sublist]
 
+    def set_stop_tokens(self, stop_tokens: list[str]):
+        self.stop_tokens = stop_tokens
+        stop_token_ids_nested = self.tokenizer(self.stop_tokens + [self.tokenizer.eos_token])["input_ids"]
+        self.stop_token_ids = [id_ for sublist in stop_token_ids_nested for id_ in sublist]
+
     def _stopping_criteria(self, prompt_lens):
-        if self.stop_tokens:
+        if isinstance(self.stop_tokens, list):
             return StoppingCriteriaList([StopTokenCriteria(self.stop_token_ids, prompt_lens)])
-        else:
+        else:  # Slightly different behavior than stop_tokens=[]; currently never triggered because stop_tokens isn't optional
             return StoppingCriteriaList([])
 
     def _trim(self, output_ids: t.Tensor, attn_mask: t.Tensor):

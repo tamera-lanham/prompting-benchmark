@@ -9,6 +9,7 @@ python = "^3.9"
 transformers = "^4.20.1"
 accelerate = "^0.10.0"
 tqdm = "^4.64.0"
+word2number = "^1.1"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"

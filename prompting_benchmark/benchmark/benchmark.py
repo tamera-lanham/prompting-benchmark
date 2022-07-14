@@ -82,7 +82,7 @@ class Benchmark:
                     if pbar.n >= total_examples:
                         return
 
-    def write_results(self, output_file: Union[Path, str] = ""):
+    def write_results(self, output_file: Union[Path, str] = "", additional_info: object = None):
         if not output_file:
             timestamp = (datetime.utcnow() - timedelta(hours=7)).strftime("%Y-%m-%d--%H-%M")
             if self.spec:
@@ -92,7 +92,11 @@ class Benchmark:
                 filename = f"benchmark_{timestamp}.json"
             output_file = Path("results") / filename
 
-        results = {"benchmark_spec": asdict(self.spec)}
+        results = {}
+        if self.spec:
+            results["benchmark_spec"] = asdict(self.spec)
+        if additional_info is not None:
+            results["info"] = additional_info
         results["results"] = list(self.iter_results())
         results["avg_score"] = sum(r["score"] for r in results["results"]) / len(results["results"])
 
