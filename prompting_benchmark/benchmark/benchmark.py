@@ -65,7 +65,7 @@ class Benchmark:
 
         return cls(model, task, score_fn, spec.max_examples, spec)
 
-    def iter_results(self, batch_size=32):
+    def iter_results(self, batch_size=64):
         total_examples = len(self.task) if self.max_examples is None else self.max_examples
         task_iter = iter(self.task)
 

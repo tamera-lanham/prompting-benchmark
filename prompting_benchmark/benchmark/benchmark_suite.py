@@ -1,7 +1,9 @@
 from dataclasses import asdict
 from datetime import datetime, timedelta
+import json
 from pathlib import Path
 from time import time
+import torch as t
 
 from prompting_benchmark.benchmark.benchmark import Benchmark
 from prompting_benchmark.benchmark.prompt_strategies import (
@@ -13,6 +15,7 @@ from prompting_benchmark.benchmark.score_fns import (
     target_in_answer,
     target_in_answer_line_with_char,
     target_is_first_number,
+    target_is_first_number_after_char,
 )
 from prompting_benchmark.benchmark.task import Task
 from prompting_benchmark.models.huggingface import HuggingfaceModel
@@ -146,7 +149,7 @@ prompt_strat_options = {
 
 score_fn_options = {
     "target_is_first_number": target_is_first_number,
-    "target_in_answer_line_with_char_>": target_in_answer_line_with_char(">"),
+    "target_is_first_number_after_char_>": target_is_first_number_after_char(">"),
 }
 
 
@@ -187,14 +190,14 @@ task_options = [
         "task_file": task_file,
         "n_exemplars": 1,
         "prompt_strat_option": "scratchpad",
-        "score_fn_option": "target_in_answer_line_with_char_>",
+        "score_fn_option": "target_is_first_number_after_char_>",
         "stop_tokens": [],
     },
     {
         "task_file": task_file,
         "n_exemplars": 3,
         "prompt_strat_option": "scratchpad",
-        "score_fn_option": "target_in_answer_line_with_char_>",
+        "score_fn_option": "target_is_first_number_after_char_>",
         "stop_tokens": [],
     },
     {
@@ -213,8 +216,7 @@ task_options = [
     },
 ]
 
-
-model_name_options = ["gpt2", "EleutherAI/gpt-neo-125M"]
+model_name_options = ["EleutherAI/gpt-j-6B", "EleutherAI/gpt-neo-1.3B", "gpt2"]
 
 timestamp = (datetime.utcnow() - timedelta(hours=7)).strftime("%Y-%m-%d--%H-%M")
 output_dir = Path("results") / ("benchmark-suite_" + timestamp)
@@ -231,15 +233,19 @@ for model_name in model_name_options:
         if "stop_tokens" in task_kwargs:
             model.set_stop_tokens(task_kwargs["stop_tokens"])
 
-        filename = output_dir / (model_name.split("/")[-1] + "_task-" + str(i) + ".json")
+        filename = output_dir / (model_name.replace(".", "-").split("/")[-1] + "_task-" + str(i) + ".json")
         print(filename.stem)
         results = benchmark.write_results(filename, additional_info=[model_name, task_kwargs])
         scores[filename.stem] = results["avg_score"]
 
     del model
+    t.cuda.empty_cache()
 
 end = time()
 total_mins = (end - start) / 60
 
 print(total_mins)
 print(scores)
+
+with open(output_dir / "results.json") as f:
+    json.dump({"scores": scores, "total_mins": total_mins}, f)
