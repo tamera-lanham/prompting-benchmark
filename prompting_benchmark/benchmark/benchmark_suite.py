@@ -133,8 +133,8 @@ prompt_strat_options = {
         "exemplars_prompt_strategy": from_template_no_scratchpad("%s\n", "%s"),
     },
     "scratchpad": {
-        "prompt_strategy": from_template("%s\n", "*%s"),
-        "exemplars_prompt_strategy": from_template("%s\n", "\n> %s", "* %s"),
+        "prompt_strategy": from_template("%s", "\n*%s"),
+        "exemplars_prompt_strategy": from_template("%s", "\n> %s", "\n* %s"),
     },
     "ellipsis": {
         "prompt_strategy": from_template_replace_scratchpad(

@@ -26,7 +26,7 @@ def from_template_replace_scratchpad(
             scratchpad_str = "\n".join(
                 " ".join(scratchpad_replacement for word in step.split(" ")) for step in scratchpad
             )
-            return q_templated + scratchpad_str + "\n" + a_templated
+            return q_templated + scratchpad_str + a_templated
 
         return q_templated + a_templated
 
