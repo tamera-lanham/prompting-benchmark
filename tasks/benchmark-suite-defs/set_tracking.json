@@ -1,0 +1,109 @@
+{
+    "few_shot_exemplars": [
+        {
+            "input": "I put six red toothbrushes, eight blue flowers, and three red keys into a box. Then I removed the keys and toothbrushes. How many blue items are left?",
+            "scratchpad": [
+                "The blue items are the eight blue flowers.",
+                "No blue items were removed, leaving the eight blue flowers."
+            ],
+            "answer": "Eight blue flowers are left."
+        },
+        {
+            "input": "I put six green toothbrushes, eight blue pens, five red balls, one blue flower, and six green slippers into a box. Then I removed the balls, flower, and toothbrushes. How many green items are left?",
+            "scratchpad": [
+                "The green items are the six green toothbrushes and six green slippers.",
+                "The green toothbrushes were removed, leaving the six green slippers."
+            ],
+            "answer": "Six green slippers are left."
+        },
+        {
+            "input": "I put eight red pens, five blue flashlights, two red cups, five red toothbrushes, four red spoons, and three blue towels into a box. Then I removed the spoons, toothbrushes, cups, towels, and flashlights. How many red items are left?",
+            "scratchpad": [
+                "The red items are the eight pens, two cups, five toothbrushes, and four spoons.",
+                "The red spoons, toothbrushes, and cups were removed, leaving the eight red pens."
+            ],
+            "answer": "Eight red pens are left."
+        },
+        {
+            "input": "I put four blue keys, two red cups, five red slippers, seven blue toothbrushes, and seven blue flowers into a box. Then I removed the slippers, toothbrushes, keys, and flowers. How many red items are left?",
+            "scratchpad": [
+                "The red items are the two red cups and the five red slippers.",
+                "The red slippers were removed, leaving the two red cups."
+            ],
+            "answer": "Two red cups are left."
+        }
+    ],
+    "model_name_options": [
+        "gpt2",
+        "gpt2-large",
+        "gpt2-xl"
+    ],
+    "tasks": [
+        {
+            "task_id": 0,
+            "task_file": "tasks/examples/set_tracking.json",
+            "n_exemplars": 0,
+            "prompt_strat_option": "no_scratchpad",
+            "score_fn_option": "target_is_first_number",
+            "stop_tokens": [
+                "\n"
+            ]
+        },
+        {
+            "task_id": 1,
+            "task_file": "tasks/examples/set_tracking.json",
+            "n_exemplars": 1,
+            "prompt_strat_option": "no_scratchpad",
+            "score_fn_option": "target_is_first_number",
+            "stop_tokens": [
+                "\n"
+            ]
+        },
+        {
+            "task_id": 2,
+            "task_file": "tasks/examples/set_tracking.json",
+            "n_exemplars": 5,
+            "prompt_strat_option": "no_scratchpad",
+            "score_fn_option": "target_is_first_number",
+            "stop_tokens": [
+                "\n"
+            ]
+        },
+        {
+            "task_id": 3,
+            "task_file": "tasks/examples/set_tracking.json",
+            "n_exemplars": 1,
+            "prompt_strat_option": "scratchpad",
+            "score_fn_option": "target_is_first_number_after_char_>",
+            "stop_tokens": []
+        },
+        {
+            "task_id": 4,
+            "task_file": "tasks/examples/set_tracking.json",
+            "n_exemplars": 5,
+            "prompt_strat_option": "scratchpad",
+            "score_fn_option": "target_is_first_number_after_char_>",
+            "stop_tokens": []
+        },
+        {
+            "task_id": 5,
+            "task_file": "tasks/examples/set_tracking.json",
+            "n_exemplars": 1,
+            "prompt_strat_option": "ellipsis",
+            "score_fn_option": "target_is_first_number",
+            "stop_tokens": [
+                "\n"
+            ]
+        },
+        {
+            "task_id": 6,
+            "task_file": "tasks/examples/set_tracking.json",
+            "n_exemplars": 5,
+            "prompt_strat_option": "ellipsis",
+            "score_fn_option": "target_is_first_number",
+            "stop_tokens": [
+                "\n"
+            ]
+        }
+    ]
+}

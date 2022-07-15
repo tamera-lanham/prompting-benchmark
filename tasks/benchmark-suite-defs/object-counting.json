@@ -108,12 +108,13 @@
         }
     ],
     "model_name_options": [
-        "EleutherAI/gpt-j-6B",
-        "EleutherAI/gpt-neo-1.3B",
-        "gpt2"
+        "gpt2",
+        "gpt2-large",
+        "gpt2-xl"
     ],
     "tasks": [
         {
+            "task_id": 0,
             "task_file": "tasks/examples/object-counting.json",
             "n_exemplars": 0,
             "prompt_strat_option": "no_scratchpad",
@@ -123,6 +124,7 @@
             ]
         },
         {
+            "task_id": 1,
             "task_file": "tasks/examples/object-counting.json",
             "n_exemplars": 1,
             "prompt_strat_option": "no_scratchpad",
@@ -132,6 +134,7 @@
             ]
         },
         {
+            "task_id": 2,
             "task_file": "tasks/examples/object-counting.json",
             "n_exemplars": 3,
             "prompt_strat_option": "no_scratchpad",
@@ -141,6 +144,7 @@
             ]
         },
         {
+            "task_id": 3,
             "task_file": "tasks/examples/object-counting.json",
             "n_exemplars": 1,
             "prompt_strat_option": "scratchpad",
@@ -148,13 +152,15 @@
             "stop_tokens": []
         },
         {
+            "task_id": 4,
             "task_file": "tasks/examples/object-counting.json",
-            "n_exemplars": 3,
+            "n_exemplars": 2,
             "prompt_strat_option": "scratchpad",
             "score_fn_option": "target_is_first_number_after_char_>",
             "stop_tokens": []
         },
         {
+            "task_id": 5,
             "task_file": "tasks/examples/object-counting.json",
             "n_exemplars": 1,
             "prompt_strat_option": "ellipsis",
@@ -164,8 +170,9 @@
             ]
         },
         {
+            "task_id": 6,
             "task_file": "tasks/examples/object-counting.json",
-            "n_exemplars": 3,
+            "n_exemplars": 2,
             "prompt_strat_option": "ellipsis",
             "score_fn_option": "target_is_first_number",
             "stop_tokens": [

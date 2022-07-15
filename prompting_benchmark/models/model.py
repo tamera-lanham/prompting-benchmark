@@ -15,13 +15,14 @@ class Model:
         temperature: float = 0.7,
         stop_tokens: list[str] = [],
         max_tokens: int = 256,
+        **kwargs
     ):
         self.model_name = model_name
         self.temperature = temperature
         self.stop_tokens = stop_tokens
         self.max_tokens = max_tokens
 
-        self._post_init()
+        self._post_init(**kwargs)
 
     def _post_init(self):
         return

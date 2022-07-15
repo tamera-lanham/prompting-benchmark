@@ -26,9 +26,9 @@ class StopTokenCriteria(StoppingCriteria):
 
 
 class HuggingfaceModel(Model):
-    def _post_init(self):
+    def _post_init(self, **kwargs):
 
-        self.device = t.device("cuda:0")
+        self.device = t.device(kwargs["device"]) if "device" in kwargs else t.device("cuda:0")
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name, padding_side="left")
         self.tokenizer.pad_token = self.tokenizer.eos_token
 
@@ -85,7 +85,12 @@ class HuggingfaceModel(Model):
     def complete(self, prompts: list[str], **generate_kwargs) -> list[str]:
 
         tokens = self.tokenizer(prompts, return_tensors="pt", padding=True)
-        prompts_ids = tokens.input_ids.to(self.device)
+        prompts_ids, attention_mask = tokens.input_ids, tokens.attention_mask
+
+        if self.model_name not in self.multi_gpu_models:
+            prompts_ids = prompts_ids.to(self.device)
+            attention_mask = attention_mask.to(self.device)
+
         prompt_lens = [row.sum().item() for row in tokens.attention_mask]
 
         outputs_ids = self.model.generate(
@@ -94,7 +99,7 @@ class HuggingfaceModel(Model):
             temperature=self.temperature,
             max_new_tokens=self.max_tokens,
             stopping_criteria=self._stopping_criteria(prompt_lens),
-            attention_mask=tokens.attention_mask.to(self.device),
+            attention_mask=attention_mask,
             pad_token_id=self.tokenizer.eos_token_id,
             **generate_kwargs
         )
@@ -102,6 +107,9 @@ class HuggingfaceModel(Model):
             self._trim(output_ids, attn_mask) for output_ids, attn_mask in zip(outputs_ids, tokens.attention_mask)
         ]
         outputs = self.tokenizer.batch_decode(output_ids_trimmed)
+
+        del prompts_ids
+        del attention_mask
 
         return outputs
 
@@ -113,35 +121,35 @@ class HuggingfaceModel(Model):
                 "transformer.wte": 0,
                 "transformer.drop": 0,
                 "transformer.h.0": 0,
-                "transformer.h.1": 0,
-                "transformer.h.2": 0,
-                "transformer.h.3": 0,
-                "transformer.h.4": 0,
+                "transformer.h.1": 1,
+                "transformer.h.2": 1,
+                "transformer.h.3": 1,
+                "transformer.h.4": 1,
                 "transformer.h.5": 1,
                 "transformer.h.6": 1,
                 "transformer.h.7": 1,
                 "transformer.h.8": 1,
                 "transformer.h.9": 1,
-                "transformer.h.10": 1,
-                "transformer.h.11": 1,
-                "transformer.h.12": 1,
-                "transformer.h.13": 1,
-                "transformer.h.14": 1,
-                "transformer.h.15": 1,
-                "transformer.h.16": 1,
-                "transformer.h.17": 1,
-                "transformer.h.18": 1,
-                "transformer.h.19": 1,
-                "transformer.h.20": 1,
-                "transformer.h.21": 1,
-                "transformer.h.22": 1,
-                "transformer.h.23": 1,
-                "transformer.h.24": 1,
-                "transformer.h.25": 1,
-                "transformer.h.26": 1,
-                "transformer.h.27": 1,
-                "transformer.ln_f": 1,
-                "lm_head": 1,
+                "transformer.h.10": 2,
+                "transformer.h.11": 2,
+                "transformer.h.12": 2,
+                "transformer.h.13": 2,
+                "transformer.h.14": 2,
+                "transformer.h.15": 2,
+                "transformer.h.16": 2,
+                "transformer.h.17": 2,
+                "transformer.h.18": 2,
+                "transformer.h.19": 2,
+                "transformer.h.20": 3,
+                "transformer.h.21": 3,
+                "transformer.h.22": 3,
+                "transformer.h.23": 3,
+                "transformer.h.24": 3,
+                "transformer.h.25": 3,
+                "transformer.h.26": 3,
+                "transformer.h.27": 3,
+                "transformer.ln_f": 3,
+                "lm_head": 3,
             },
         )
     }

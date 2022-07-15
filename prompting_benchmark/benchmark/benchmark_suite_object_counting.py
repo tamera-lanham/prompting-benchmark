@@ -23,8 +23,8 @@ from prompting_benchmark.models.huggingface import HuggingfaceModel
 
 prompt_strat_options = {
     "no_scratchpad": {
-        "prompt_strategy": from_template_no_scratchpad("%s\n", "I have%s"),
-        "exemplars_prompt_strategy": from_template_no_scratchpad("%s\n", "%s"),
+        "prompt_strategy": from_template_no_scratchpad("Q: %s\n", "A: I have%s"),
+        "exemplars_prompt_strategy": from_template_no_scratchpad("Q: %s\n", "A: %s"),
     },
     "scratchpad": {
         "prompt_strategy": from_template("%s", "\n*%s"),
@@ -32,9 +32,9 @@ prompt_strat_options = {
     },
     "ellipsis": {
         "prompt_strategy": from_template_replace_scratchpad(
-            "%s\n", "\n".join("...".join(" " for word in range(30)) for step in range(5)) + "\n> I have%s"
+            "Q: %s\n", "\n".join("...".join(" " for word in range(20)) for step in range(5)) + "\nA: I have%s"
         ),
-        "exemplars_prompt_strategy": from_template_replace_scratchpad("%s\n", "\n> %s", "..."),
+        "exemplars_prompt_strategy": from_template_replace_scratchpad("Q: %s\n", "\nA: %s", "..."),
     },
 }
 
@@ -68,15 +68,21 @@ task_options = benchmark_suite_defs["tasks"]
 start = time()
 scores = {}
 for model_name in model_name_options:
-    model = HuggingfaceModel(model_name)
+    model = HuggingfaceModel(model_name, device="cuda:0")
 
-    for i, task_def in enumerate(task_options):
+    for task_def in task_options:
+
+        # if task_def["task_id"] not in [4, 5, 6]:
+        #     continue
+
         task, score_fn = get_task(task_def, few_shot_exemplars)
         benchmark = Benchmark(model, task, score_fn)
 
         model.set_stop_tokens(task_def["stop_tokens"])
 
-        filename = output_dir / (model_name.replace(".", "-").split("/")[-1] + "_task-" + str(i) + ".json")
+        filename = output_dir / (
+            model_name.replace(".", "-").split("/")[-1] + "_task-" + str(task_def["task_id"]) + ".json"
+        )
         print(filename.stem)
         results = benchmark.write_results(filename, additional_info=[model_name, task_def])
         scores[filename.stem] = results["avg_score"]
@@ -90,5 +96,5 @@ total_mins = (end - start) / 60
 print(total_mins)
 print(scores)
 
-with open(output_dir / "results.json") as f:
+with open(output_dir / "results.json", "w") as f:
     json.dump({"scores": scores, "total_mins": total_mins}, f)

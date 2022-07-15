@@ -1,0 +1,117 @@
+{
+    "few_shot_exemplars": [
+        {
+            "input": "What is 51 plus 36?",
+            "scratchpad": [
+                "Ones place: 1 + 6 = 7. Carry = 0",
+                "Tens place: 5 + 3 = 8; 8 + 0 = 8."
+            ],
+            "answer": "87"
+        },
+        {
+            "input": "What is 34 plus 39?",
+            "scratchpad": [
+                "Ones place: 4 + 9 = 13. Carry = 1",
+                "Tens place: 3 + 3 = 6; 6 + 1 = 7."
+            ],
+            "answer": "73"
+        },
+        {
+            "input": "What is 81 plus 15?",
+            "scratchpad": [
+                "Ones place: 1 + 5 = 6. Carry = 0",
+                "Tens place: 8 + 1 = 9; 9 + 0 = 9."
+            ],
+            "answer": "96"
+        },
+        {
+            "input": "What is 38 plus 20?",
+            "scratchpad": [
+                "Ones place: 8 + 0 = 8. Carry = 0",
+                "Tens place: 3 + 2 = 5; 5 + 0 = 5."
+            ],
+            "answer": "58"
+        },
+        {
+            "input": "What is 47 plus 54?",
+            "scratchpad": [
+                "Ones place: 7 + 4 = 11. Carry = 1",
+                "Tens place: 4 + 5 = 9; 9 + 1 = 10."
+            ],
+            "answer": "101"
+        }
+    ],
+    "model_name_options": [
+        "gpt2",
+        "gpt2-large",
+        "gpt2-xl"
+    ],
+    "tasks": [
+        {
+            "task_id": 0,
+            "task_file": "tasks/examples/2-digit-addition.json",
+            "n_exemplars": 0,
+            "prompt_strat_option": "no_scratchpad",
+            "score_fn_option": "target_is_first_number",
+            "stop_tokens": [
+                "\n"
+            ]
+        },
+        {
+            "task_id": 1,
+            "task_file": "tasks/examples/2-digit-addition.json",
+            "n_exemplars": 1,
+            "prompt_strat_option": "no_scratchpad",
+            "score_fn_option": "target_is_first_number",
+            "stop_tokens": [
+                "\n"
+            ]
+        },
+        {
+            "task_id": 2,
+            "task_file": "tasks/examples/2-digit-addition.json",
+            "n_exemplars": 5,
+            "prompt_strat_option": "no_scratchpad",
+            "score_fn_option": "target_is_first_number",
+            "stop_tokens": [
+                "\n"
+            ]
+        },
+        {
+            "task_id": 3,
+            "task_file": "tasks/examples/2-digit-addition.json",
+            "n_exemplars": 1,
+            "prompt_strat_option": "scratchpad",
+            "score_fn_option": "target_is_first_number_after_char_>",
+            "stop_tokens": []
+        },
+        {
+            "task_id": 4,
+            "task_file": "tasks/examples/2-digit-addition.json",
+            "n_exemplars": 5,
+            "prompt_strat_option": "scratchpad",
+            "score_fn_option": "target_is_first_number_after_char_>",
+            "stop_tokens": []
+        },
+        {
+            "task_id": 5,
+            "task_file": "tasks/examples/2-digit-addition.json",
+            "n_exemplars": 1,
+            "prompt_strat_option": "ellipsis",
+            "score_fn_option": "target_is_first_number",
+            "stop_tokens": [
+                "\n"
+            ]
+        },
+        {
+            "task_id": 6,
+            "task_file": "tasks/examples/2-digit-addition.json",
+            "n_exemplars": 5,
+            "prompt_strat_option": "ellipsis",
+            "score_fn_option": "target_is_first_number",
+            "stop_tokens": [
+                "\n"
+            ]
+        }
+    ]
+}
