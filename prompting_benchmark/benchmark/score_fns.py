@@ -24,11 +24,12 @@ def target_in_answer_line_with_char(char: str = ">") -> Callable:
         return 1.0 if any(target in usable_lines for target in targets) else 0.0
 
     return score_fn
-    
+
+
 def target_is_first_number(answer: str, targets: list[str]) -> float:
     def is_number(string: str) -> bool:
         try:
-            word_to_num(str)
+            word_to_num(string)
         except:
             return False
         return True
@@ -40,9 +41,11 @@ def target_is_first_number(answer: str, targets: list[str]) -> float:
             return 0.0
     return 0.0
 
+
 def target_is_first_number_after_char(char: str = ">") -> Callable:
     def score_fn(answer: str, targets: list[str]):
         if char in answer:
-            answer = answer[answer.index(char):]
+            answer = answer[answer.index(char) :]
         return target_is_first_number(answer, targets)
+
     return score_fn

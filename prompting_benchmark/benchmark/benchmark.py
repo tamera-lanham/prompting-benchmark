@@ -8,8 +8,12 @@ from typing import Optional, Union, Callable
 import json
 import subprocess
 from tqdm import tqdm
-import os
 from prompting_benchmark.benchmark.task import Task
+import torch as t
+
+
+def gpu_usage():
+    return tuple(t.cuda.memory_reserved(i) / 2**30 for i in range(t.cuda.device_count()))
 
 
 @dataclass
@@ -78,7 +82,9 @@ class Benchmark:
                     answer = full_completion[len(prompt) :]
                     score = self.score_fn(answer, target)
                     yield {"prompt": prompt, "target": target, "answer": answer, "score": score}
+
                     pbar.update()
+                    pbar.set_postfix({"gpu_usage_gb": gpu_usage()})
                     if pbar.n >= total_examples:
                         return
 
