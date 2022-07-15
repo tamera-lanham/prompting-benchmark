@@ -125,7 +125,7 @@ if __name__ == "__main__":
     spec = BenchmarkSpec(
         model_class="HuggingfaceModel",
         model_kwargs={"model_name": "EleutherAI/gpt-j-6B", "stop_tokens": ["\n", "."]},
-        examples_file="tasks/object-counting.json",
+        examples_file="tasks/examples/object-counting.json",
         few_shot_exemplars=few_shot_exemplars,
         prompt_strat="from_template",
         prompt_strat_kwargs={"question_template": "%s\n", "answer_template": "I have%s"},
